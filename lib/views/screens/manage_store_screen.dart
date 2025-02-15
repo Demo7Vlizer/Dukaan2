@@ -15,121 +15,126 @@ class ManageStoreScreen extends StatelessWidget {
     final crossAxisSpacing = screenSize.width * 0.03; // Responsive spacing
     final mainAxisSpacing = screenSize.width * 0.03;
 
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      appBar: CustomAppBar(
-        title: 'Manage Store',
-        showBackButton: true,
-        onBackPressed: () {
-          Get.back();
-          Get.find<NavigationController>()
-              .updateIndexBasedOnRoute(AppRoutes.home);
-        },
-      ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          // Calculate card width based on screen width
-          final cardWidth =
-              (constraints.maxWidth - (padding * 2 + crossAxisSpacing)) / 2;
-          final cardHeight = cardWidth * 0.7; // Aspect ratio of 1.67
+    return WillPopScope(
+      onWillPop: () async {
+        Get.find<NavigationController>().changePage(0);
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        appBar: CustomAppBar(
+          title: 'Manage Store',
+          showBackButton: true,
+          onBackPressed: () {
+            Get.back();
+            Get.find<NavigationController>().changePage(0);
+          },
+        ),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            // Calculate card width based on screen width
+            final cardWidth =
+                (constraints.maxWidth - (padding * 2 + crossAxisSpacing)) / 2;
+            final cardHeight = cardWidth * 0.7; // Aspect ratio of 1.67
 
-          return GridView.custom(
-            padding: EdgeInsets.all(padding),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: mainAxisSpacing,
-              crossAxisSpacing: crossAxisSpacing,
-              childAspectRatio: cardWidth / cardHeight,
-            ),
-            childrenDelegate: SliverChildListDelegate([
-              _buildStoreCard(
-                icon: Icons.campaign,
-                iconColor: Colors.orange,
-                backgroundColor: Colors.green.shade50,
-                title: 'Marketing\nDesign',
-                onTap: () {},
-                constraints: BoxConstraints(maxWidth: cardWidth),
+            return GridView.custom(
+              padding: EdgeInsets.all(padding),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: mainAxisSpacing,
+                crossAxisSpacing: crossAxisSpacing,
+                childAspectRatio: cardWidth / cardHeight,
               ),
-              _buildStoreCard(
-                icon: Icons.payment,
-                iconColor: Colors.green,
-                backgroundColor: Colors.green.shade50,
-                title: 'Online\nPayments',
-                onTap: () => Get.toNamed(AppRoutes.payments),
-                constraints: BoxConstraints(maxWidth: cardWidth),
-              ),
-              _buildStoreCard(
-                icon: Icons.discount,
-                iconColor: Colors.amber,
-                backgroundColor: Colors.amber.shade50,
-                title: 'Discount\nCoupons',
-                onTap: () {},
-                constraints: BoxConstraints(maxWidth: cardWidth),
-              ),
-              _buildStoreCard(
-                icon: Icons.group,
-                iconColor: Colors.blue,
-                backgroundColor: Colors.blue.shade50,
-                title: 'My\nCustomers',
-                onTap: () {},
-                constraints: BoxConstraints(maxWidth: cardWidth),
-              ),
-              _buildStoreCard(
-                icon: Icons.qr_code_scanner,
-                iconColor: Colors.grey,
-                backgroundColor: Colors.grey.shade200,
-                title: 'Store QR\nCode',
-                onTap: () {},
-                constraints: BoxConstraints(maxWidth: cardWidth),
-              ),
-              _buildStoreCard(
-                icon: Icons.currency_rupee,
-                iconColor: Colors.purple,
-                backgroundColor: Colors.purple.shade50,
-                title: 'Extra\nCharges',
-                onTap: () {},
-                constraints: BoxConstraints(maxWidth: cardWidth),
-              ),
-              _buildStoreCard(
-                icon: Icons.description,
-                iconColor: Colors.pink,
-                backgroundColor: Colors.pink.shade50,
-                title: 'Order Form',
-                isNew: true,
-                onTap: () {},
-                constraints: BoxConstraints(maxWidth: cardWidth),
-              ),
-              _buildStoreCard(
-                icon: Icons.workspace_premium,
-                iconColor: Colors.amber,
-                backgroundColor: Colors.amber.shade50,
-                title: 'Dukaan\nPremium',
-                onTap: () => Get.toNamed(AppRoutes.premium),
-                isNew: true,
-                constraints: BoxConstraints(maxWidth: cardWidth),
-              ),
-            ]),
-          );
-        },
+              childrenDelegate: SliverChildListDelegate([
+                _buildStoreCard(
+                  icon: Icons.campaign,
+                  iconColor: Colors.orange,
+                  backgroundColor: Colors.green.shade50,
+                  title: 'Marketing\nDesign',
+                  onTap: () {},
+                  constraints: BoxConstraints(maxWidth: cardWidth),
+                ),
+                _buildStoreCard(
+                  icon: Icons.payment,
+                  iconColor: Colors.green,
+                  backgroundColor: Colors.green.shade50,
+                  title: 'Online\nPayments',
+                  onTap: () => Get.toNamed(AppRoutes.payments),
+                  constraints: BoxConstraints(maxWidth: cardWidth),
+                ),
+                _buildStoreCard(
+                  icon: Icons.discount,
+                  iconColor: Colors.amber,
+                  backgroundColor: Colors.amber.shade50,
+                  title: 'Discount\nCoupons',
+                  onTap: () {},
+                  constraints: BoxConstraints(maxWidth: cardWidth),
+                ),
+                _buildStoreCard(
+                  icon: Icons.group,
+                  iconColor: Colors.blue,
+                  backgroundColor: Colors.blue.shade50,
+                  title: 'My\nCustomers',
+                  onTap: () {},
+                  constraints: BoxConstraints(maxWidth: cardWidth),
+                ),
+                _buildStoreCard(
+                  icon: Icons.qr_code_scanner,
+                  iconColor: Colors.grey,
+                  backgroundColor: Colors.grey.shade200,
+                  title: 'Store QR\nCode',
+                  onTap: () {},
+                  constraints: BoxConstraints(maxWidth: cardWidth),
+                ),
+                _buildStoreCard(
+                  icon: Icons.currency_rupee,
+                  iconColor: Colors.purple,
+                  backgroundColor: Colors.purple.shade50,
+                  title: 'Extra\nCharges',
+                  onTap: () {},
+                  constraints: BoxConstraints(maxWidth: cardWidth),
+                ),
+                _buildStoreCard(
+                  icon: Icons.description,
+                  iconColor: Colors.pink,
+                  backgroundColor: Colors.pink.shade50,
+                  title: 'Order Form',
+                  isNew: true,
+                  onTap: () {},
+                  constraints: BoxConstraints(maxWidth: cardWidth),
+                ),
+                _buildStoreCard(
+                  icon: Icons.workspace_premium,
+                  iconColor: Colors.amber,
+                  backgroundColor: Colors.amber.shade50,
+                  title: 'Dukaan\nPremium',
+                  onTap: () => Get.toNamed(AppRoutes.premium),
+                  isNew: true,
+                  constraints: BoxConstraints(maxWidth: cardWidth),
+                ),
+              ]),
+            );
+          },
+        ),
+        bottomNavigationBar: Obx(() => BottomNavigationBar(
+              currentIndex: navigationController.currentIndex.value,
+              onTap: navigationController.changePage,
+              selectedItemColor: Colors.blue,
+              unselectedItemColor: Colors.grey,
+              type: BottomNavigationBarType.fixed,
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.shopping_cart), label: 'Orders'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.grid_view), label: 'Products'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.manage_accounts), label: 'Manage'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person), label: 'Account'),
+              ],
+            )),
       ),
-      bottomNavigationBar: Obx(() => BottomNavigationBar(
-            currentIndex: navigationController.currentIndex.value,
-            onTap: navigationController.changePage,
-            selectedItemColor: Colors.blue,
-            unselectedItemColor: Colors.grey,
-            type: BottomNavigationBarType.fixed,
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_cart), label: 'Orders'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.grid_view), label: 'Products'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.manage_accounts), label: 'Manage'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: 'Account'),
-            ],
-          )),
     );
   }
 

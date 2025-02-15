@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import '../../controllers/product_controller.dart';
 import '../../widgets/custom_app_bar.dart';
-import '../../routes/app_routes.dart';
 import '../../widgets/custom_switch.dart';
-// import '../../widgets/custom_bottom_nav.dart';
 import '../../controllers/product_controller.dart';
 import '../../models/product_model.dart';
 import '../../controllers/navigation_controller.dart';
@@ -16,60 +13,65 @@ class CatalogueScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ProductController());
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Colors.grey.shade100,
-        appBar: CustomAppBar(
-          title: 'Catalogue',
-          showBackButton: true,
-          onBackPressed: () {
-            Get.back();
-            Get.find<NavigationController>()
-                .updateIndexBasedOnRoute(AppRoutes.home);
-          },
-          bottom: TabBar(
-            tabs: const [
-              Tab(text: 'Products'),
-              Tab(text: 'Categories'),
+    return WillPopScope(
+      onWillPop: () async {
+        Get.find<NavigationController>().changePage(0);
+        return true;
+      },
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          backgroundColor: Colors.grey.shade100,
+          appBar: CustomAppBar(
+            title: 'Catalogue',
+            showBackButton: true,
+            onBackPressed: () {
+              Get.back();
+              Get.find<NavigationController>().changePage(0);
+            },
+            bottom: TabBar(
+              tabs: const [
+                Tab(text: 'Products'),
+                Tab(text: 'Categories'),
+              ],
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.white.withOpacity(0.8),
+              indicatorColor: Colors.white,
+              indicatorWeight: 3,
+              indicatorSize: TabBarIndicatorSize.tab,
+              labelStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () {
+                  // Implement search
+                },
+              ),
             ],
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.white.withOpacity(0.8),
-            indicatorColor: Colors.white,
-            indicatorWeight: 3,
-            indicatorSize: TabBarIndicatorSize.tab,
-            labelStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-            unselectedLabelStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-            ),
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                // Implement search
-              },
-            ),
-          ],
-        ),
-        body: TabBarView(
-          children: [
-            // Products Tab
-            Obx(() => ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: controller.products.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 16),
-                  itemBuilder: (context, index) =>
-                      _buildProductCard(controller.products[index]),
-                )),
-            // Categories Tab
-            const Center(child: Text('Categories Coming Soon')),
-          ],
+          body: TabBarView(
+            children: [
+              // Products Tab
+              Obx(() => ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: controller.products.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 16),
+                    itemBuilder: (context, index) =>
+                        _buildProductCard(controller.products[index]),
+                  )),
+              // Categories Tab
+              const Center(child: Text('Categories Coming Soon')),
+            ],
+          ),
         ),
       ),
     );

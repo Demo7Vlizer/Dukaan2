@@ -3,33 +3,37 @@ import 'package:get/get.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_receipt_icon.dart';
 import '../../controllers/navigation_controller.dart';
-import '../../routes/app_routes.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
   const OrderDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        centerTitle: true,
-        title: 'Order #1688068',
-        showBackButton: true,
-        onBackPressed: () {
-          Get.back();
-          Get.find<NavigationController>()
-              .updateIndexBasedOnRoute(AppRoutes.home);
-        },
-      ),
-      body: ListView(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
-        children: [
-          _buildOrderStatus(),
-          _buildOrderItem(),
-          _buildPriceDetails(),
-          _buildCustomerDetails(),
-          _buildAdditionalInfo(),
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        Get.find<NavigationController>().changePage(0);
+        return true;
+      },
+      child: Scaffold(
+        appBar: CustomAppBar(
+          centerTitle: true,
+          title: 'Order #1688068',
+          showBackButton: true,
+          onBackPressed: () {
+            Get.back();
+            Get.find<NavigationController>().changePage(0);
+          },
+        ),
+        body: ListView(
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+          children: [
+            _buildOrderStatus(),
+            _buildOrderItem(),
+            _buildPriceDetails(),
+            _buildCustomerDetails(),
+            _buildAdditionalInfo(),
+          ],
+        ),
       ),
     );
   }
